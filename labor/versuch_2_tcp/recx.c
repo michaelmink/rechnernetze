@@ -5,7 +5,7 @@ int main() {
 
     // socket
     int receiver_socket_fd = socket(AF_INET, SOCK_STREAM, 0); // bei Fehler -1
-    if (receiver_socket_fd == -1){
+    if (receiver_socket_fd == -1) {
         perror("Fehler in der Socketerstellung.");
         return -1;
     }
@@ -13,14 +13,14 @@ int main() {
     // bind
     struct sockaddr_in receiver_addr = make_addr();
     int bind_out = bind(receiver_socket_fd, (struct sockaddr *) &receiver_addr, sizeof(receiver_addr)); // bei Fehler -1
-    if (bind_out == -1){
+    if (bind_out == -1) {
         perror("Fehler beim Bind.");
         return -1;
     }
 
     // listen
     int listen_out = listen(receiver_socket_fd, 5); // bei Fehler -1
-    if (listen_out == -1){
+    if (listen_out == -1) {
         perror("Fehler beim Listen.");
         return -1;
     }
@@ -29,7 +29,7 @@ int main() {
     struct sockaddr_in source_addr;
     unsigned int source_addr_len = sizeof(source_addr);
     int accept_socket = accept(receiver_socket_fd, (struct sockaddr*)&source_addr, &source_addr_len); // bei Fehler -1
-    if (accept_socket == -1){
+    if (accept_socket == -1) {
         perror("Fehler beim Accept.");
         close(receiver_socket_fd);
         return -1;
@@ -44,13 +44,13 @@ int main() {
         int buflen = sizeof(buffer);
         int recx_out = recvx(accept_socket, buffer, buflen, 0);
 
-        if (recx_out == -1){
+        if (recx_out == -1) {
             perror("Fehler beim Receive.");
             close(accept_socket);
             close(receiver_socket_fd);
             return -1;
         }
-        if (recx_out == 0){
+        if (recx_out == 0) {
             printf("Sender hat die Verbindung geschlossen.\n");
             close(accept_socket);
             close(receiver_socket_fd);
@@ -58,12 +58,12 @@ int main() {
         }
 
         switch (OUTPUT_MODE) {
-            case 0:
-                output_whole_segment(buffer, recx_out, RECV_NO);
-                break;
-            case 1:
-                output_compressed_segment(buffer, recx_out, RECV_NO);
-                break;
+        case 0:
+            output_whole_segment(buffer, recx_out, RECV_NO);
+            break;
+        case 1:
+            output_compressed_segment(buffer, recx_out, RECV_NO);
+            break;
         }
     }
 
@@ -75,7 +75,7 @@ int main() {
 void output_whole_segment(void *buffer, int buflen, int RECV_NO) {
     unsigned char *buf = buffer;
     printf("RECV-NO: %d, LEN: %d, CONTENTS: ", RECV_NO, buflen);
-    for (int k = 0; k < buflen; k++){
+    for (int k = 0; k < buflen; k++) {
         printf("%02x ", buf[k]);
     }
     printf("\n");
@@ -84,8 +84,8 @@ void output_whole_segment(void *buffer, int buflen, int RECV_NO) {
 void output_compressed_segment(void *buffer, int buflen, int RECV_NO) {
     unsigned char *buf = buffer;
     printf("RECV-NO: %d, LEN: %d, CONTENTS: %02x", RECV_NO, buflen, buf[0]);
-    for (int k = 1; k < buflen; k++){
-        if (buf[k] != buf[k-1]){
+    for (int k = 1; k < buflen; k++) {
+        if (buf[k] != buf[k-1]) {
             printf("..%02x", buf[k]);
         }
     }
@@ -109,11 +109,13 @@ int recvx(int socket_fd, void *buffer, int buflen, int flags) {
 
     // read first 2 Bytes into buffer
     int r = recv_all(socket_fd, buf, 2, flags);
-    if (r <= 0) {return r;}
+    if (r <= 0) {
+        return r;
+    }
 
     int len = (buf[0] << 8) | buf[1];
     //printf("gelesene Len: %d --> ", len);
-    
+
     // read segment into buffer using segment len
     int rec_out = recv_all(socket_fd, buf, len, flags);
 
