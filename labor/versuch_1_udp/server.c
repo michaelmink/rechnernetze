@@ -1,31 +1,12 @@
-#include <unistd.h> // für einige der Systemcalls
-#include <ctype.h> // für toupper()
-#include <sys/socket.h> // für Socket-Strukturen
-#include <sys/types.h> // für Basistypen
-#include <arpa/inet.h> // für Socketadressen 
-
-#include <stdio.h>
-#include <string.h>
-
-#define BUFSIZE 1000
-#define MAX_CLIENTS 10
-
-int get_len(unsigned char buffer[]);
-
-
-// struc für source spezifisches Sammeln und Auswerten
-typedef struct {
-    char ip_addr;
-    int min;
-    int max;
-    double mean;
-} Stats;
-
+#include "common.h"
 
 
 int main() {
 
     printf("Starte Server...\n");
+
+    // init Stats
+    Stats stats[10] = {0};
 
     // socket
     int socket_fd = socket(AF_INET, SOCK_DGRAM, 0);
@@ -39,7 +20,6 @@ int main() {
     own_addr.sin_family = AF_INET;
     own_addr.sin_port = htons(3322);
     own_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-
 
     // bind
     int bind_status = bind(socket_fd, (struct sockaddr*)&own_addr, sizeof(own_addr));
@@ -60,12 +40,23 @@ int main() {
             return -1;
         }
 
+        // define client_id as <source_ip>_<source_port>
         char *source_ip = inet_ntoa(source_addr.sin_addr);
         unsigned short source_port = ntohs(source_addr.sin_port);
-        
-        
-        printf("Empfangene Nachricht von %s:%d: %s (len: %d)\n", source_ip, source_port, buffer, get_len(buffer));
-    
+        char client_id[IP_ADDR_LEN+PORT_ADDR_LEN];
+        snprintf(client_id, sizeof(client_id), "%s_%d", source_ip, source_port);
+
+        // compute stats for client_id
+        char msg[100];
+        get_or_create_client_entry(stats, client_id, get_len(buffer), msg, sizeof(msg));
+        printf("%s --> %s\n", client_id, msg);
+
+        // send
+        int send_status = sendto(socket_fd, msg, sizeof(msg), 0, (struct sockaddr*)&source_addr, sizeof(source_addr));
+        if (send_status == -1){
+            perror("Fehler beim Senden.");
+            return -1;
+        }
     }
 }
 

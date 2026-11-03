@@ -1,15 +1,5 @@
-#include <unistd.h> // für einige der Systemcalls
-#include <ctype.h> // für toupper()
-#include <sys/socket.h> // für Socket-Strukturen
-#include <sys/types.h> // für Basistypen
-#include <arpa/inet.h> // für Socketadressen 
+#include "common.h"
 
-#include <stdio.h>
-#include <string.h>
-
-
-int STATUS = 1;
-#define BUFSIZE 1000
 
 int main() {
 
@@ -26,6 +16,7 @@ int main() {
     dest_addr.sin_port = htons(3322);
     dest_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
+    int STATUS = 1;
     while(STATUS){
 
         // Nutzereingabe (ASCII-Text)
@@ -47,6 +38,16 @@ int main() {
             return -1;
         }
 
+        // recvfrom
+        char recv_buffer[BUFSIZE];
+        struct sockaddr *source_addr;
+        unsigned int source_addr_len = sizeof(source_addr_len);
+        int recv_status = recvfrom(socket_fd, recv_buffer, BUFSIZE, 0, (struct sockaddr *)&source_addr, &source_addr_len);
+        if (recv_status == -1){
+            perror("Fehler beim Empfangen.");
+            return -1;
+        }
+        printf("%s\n", recv_buffer);
     }
     // close
     close(socket_fd);
