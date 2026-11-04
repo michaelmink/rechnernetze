@@ -9,6 +9,8 @@ void get_or_create_client_entry(Stats stats[], char client_id[IP_ADDR_LEN+PORT_A
             FOUND = 1;
             // increment counter
             stats[i].count++;
+            // update sum
+            stats[i].sum = stats[i].sum + len;
             // update max
             if (stats[i].max < len){
                 stats[i].max = len;
@@ -18,9 +20,9 @@ void get_or_create_client_entry(Stats stats[], char client_id[IP_ADDR_LEN+PORT_A
                 stats[i].min = len;
             }
             // update mean
-            stats[i].mean = ((stats[i].mean * (stats[i].count -1)) + len) / stats[i].count;
+            stats[i].mean = (double)stats[i].sum / stats[i].count;
 
-            snprintf(msg, 100, " LEN= %d (History: Min=%d Max=%d Avg=%f)", len, stats[i].min, stats[i].max, stats[i].mean);
+            snprintf(msg, msglen, " LEN= %d (History: Min=%d Max=%d Avg=%.2f)\n", len, stats[i].min, stats[i].max, stats[i].mean);
         }
     }
     if (FOUND == 0) {
@@ -32,12 +34,17 @@ void get_or_create_client_entry(Stats stats[], char client_id[IP_ADDR_LEN+PORT_A
                 break;
             }
         }
+        if (j == MAX_CLIENTS) {
+            snprintf(msg, msglen, "Server voll (max. %d Clients)\n", MAX_CLIENTS);
+            return;
+        }
         
         snprintf(stats[j].client_id, IP_ADDR_LEN+PORT_ADDR_LEN, "%s", client_id);
         stats[j].count = 1;
+        stats[j].sum = len;
         stats[j].min = len;
         stats[j].max = len;
         stats[j].mean = len;
-        snprintf(msg, 100, " LEN= %d (History: Min=%d Max=%d Avg=%f)", len, stats[j].min, stats[j].max, stats[j].mean);
+        snprintf(msg, msglen, " LEN= %d (History: Min=%d Max=%d Avg=%.2f)\n", len, stats[j].min, stats[j].max, stats[j].mean);
     }
 }

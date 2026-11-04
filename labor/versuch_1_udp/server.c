@@ -6,7 +6,7 @@ int main() {
     printf("Starte Server...\n");
 
     // init Stats
-    Stats stats[10] = {0};
+    Stats stats[MAX_CLIENTS] = {0};
 
     // socket
     int socket_fd = socket(AF_INET, SOCK_DGRAM, 0);
@@ -34,8 +34,8 @@ int main() {
         unsigned char buffer[BUFSIZE] = {0};
         struct sockaddr_in source_addr;
         unsigned int source_addr_len = sizeof(source_addr);
-        int rec_status = recvfrom(socket_fd, buffer, sizeof(buffer), 0, (struct sockaddr*)&source_addr, &source_addr_len);
-        if (rec_status == -1){
+        int rec_len = recvfrom(socket_fd, buffer, BUFSIZE - 1, 0, (struct sockaddr*)&source_addr, &source_addr_len);
+        if (rec_len == -1){
             perror("Fehler beim Empfang.");
             return -1;
         }
@@ -46,29 +46,20 @@ int main() {
         char client_id[IP_ADDR_LEN+PORT_ADDR_LEN];
         snprintf(client_id, sizeof(client_id), "%s_%d", source_ip, source_port);
 
+        // print received msg and ip+port
+        printf("%s (%d): %s\n", source_ip, source_port, buffer);
+
         // compute stats for client_id
         char msg[100];
-        get_or_create_client_entry(stats, client_id, get_len(buffer), msg, sizeof(msg));
-        printf("%s --> %s\n", client_id, msg);
+        get_or_create_client_entry(stats, client_id, rec_len, msg, sizeof(msg));
+        int idx_len = strcspn(msg, "\n");
+        printf("%s --> LEN: %d, %s", client_id, idx_len, msg);
 
         // send
-        int send_status = sendto(socket_fd, msg, sizeof(msg), 0, (struct sockaddr*)&source_addr, sizeof(source_addr));
+        int send_status = sendto(socket_fd, msg, idx_len, 0, (struct sockaddr*)&source_addr, sizeof(source_addr));
         if (send_status == -1){
             perror("Fehler beim Senden.");
             return -1;
         }
-    }
-}
-
-int get_len(unsigned char buffer[]){
-    int counter = 0;
-    while(1){
-        if (buffer[counter] == 10){
-            return counter;
-        }
-        if (counter == BUFSIZE){
-            return 0;
-        }
-        counter++;
     }
 }
