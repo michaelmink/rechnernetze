@@ -1,0 +1,63 @@
+<mxfile host="65bd71144e">
+    <diagram id="DPf-65zFgOJovDfUXnuE" name="Page-1">
+        <mxGraphModel dx="730" dy="451" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="iRTbvVcGpWwvNY1z7eJY-3" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;perimeter=cloudPerimeter;" value="" vertex="1">
+                    <mxGeometry height="270" width="320" x="250" y="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="iRTbvVcGpWwvNY1z7eJY-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="Router" vertex="1">
+                    <mxGeometry height="30" width="80" x="230" y="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="iRTbvVcGpWwvNY1z7eJY-6" edge="1" parent="1" source="iRTbvVcGpWwvNY1z7eJY-2" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.515;entryY=0.803;entryDx=0;entryDy=0;" target="iRTbvVcGpWwvNY1z7eJY-5">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="iRTbvVcGpWwvNY1z7eJY-10" connectable="0" parent="iRTbvVcGpWwvNY1z7eJY-6" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];inheritText=1;" value="ARP-Req" vertex="1">
+                    <mxGeometry relative="1" x="-0.0963" y="2" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="iRTbvVcGpWwvNY1z7eJY-7" edge="1" parent="1" source="iRTbvVcGpWwvNY1z7eJY-2" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" target="iRTbvVcGpWwvNY1z7eJY-4">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="iRTbvVcGpWwvNY1z7eJY-9" connectable="0" parent="iRTbvVcGpWwvNY1z7eJY-7" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];inheritText=1;" value="ARP-Req" vertex="1">
+                    <mxGeometry relative="1" x="-0.21" y="-1" as="geometry">
+                        <mxPoint x="14" y="-5" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="iRTbvVcGpWwvNY1z7eJY-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="PC-A" vertex="1">
+                    <mxGeometry height="30" width="70" x="355" y="250" as="geometry"/>
+                </mxCell>
+                <mxCell id="iRTbvVcGpWwvNY1z7eJY-8" edge="1" parent="1" source="iRTbvVcGpWwvNY1z7eJY-4" style="edgeStyle=none;html=1;entryX=0.271;entryY=0.093;entryDx=0;entryDy=0;" target="iRTbvVcGpWwvNY1z7eJY-2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="iRTbvVcGpWwvNY1z7eJY-11" connectable="0" parent="iRTbvVcGpWwvNY1z7eJY-8" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];inheritText=1;" value="ARP-Resp" vertex="1">
+                    <mxGeometry relative="1" x="-0.1604" y="1" as="geometry">
+                        <mxPoint x="-24" y="-2" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="iRTbvVcGpWwvNY1z7eJY-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="PC-B" vertex="1">
+                    <mxGeometry height="30" width="70" x="340" y="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="iRTbvVcGpWwvNY1z7eJY-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="PC-C" vertex="1">
+                    <mxGeometry height="30" width="70" x="450" y="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="iRTbvVcGpWwvNY1z7eJY-12" edge="1" parent="1" source="iRTbvVcGpWwvNY1z7eJY-2" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.184;entryY=0.54;entryDx=0;entryDy=0;entryPerimeter=0;" target="iRTbvVcGpWwvNY1z7eJY-3">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="393" y="280" as="sourcePoint"/>
+                        <mxPoint x="380" y="180" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="iRTbvVcGpWwvNY1z7eJY-13" connectable="0" parent="iRTbvVcGpWwvNY1z7eJY-12" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];inheritText=1;" value="ARP-Req" vertex="1">
+                    <mxGeometry relative="1" x="-0.21" y="-1" as="geometry">
+                        <mxPoint x="-29" y="-2" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="iRTbvVcGpWwvNY1z7eJY-14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="ARP_Req: ARP-Request (Broadcast an ff:ff:ff:ff:ff:ff): &quot;Wer hat 192.168.1.20?&quot;&lt;div&gt;ARP_Resp: ARP-Reply (Unicast): &quot;192.168.1.20 ist bei bb:bb:bb:bb:bb:bb&quot;&amp;nbsp;&lt;/div&gt;" vertex="1">
+                    <mxGeometry height="60" width="480" x="290" y="20" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
